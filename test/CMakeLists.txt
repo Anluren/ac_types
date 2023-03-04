@@ -15,6 +15,7 @@ add_executable(ac_int_test
 
 target_link_libraries(
   ac_int_test
+  ac_types
   GTest::gtest_main
 )
 

@@ -1,9 +1,43 @@
+#include <ac_int.h>
 #include <gtest/gtest.h>
 
+class AcIntTest : public ::testing::Test {
+protected:
+  void SetUp() override {
+    m_int3 = 2;
+    m_int4 = 7;
+    m_uint3 = 2;
+    m_uint4 = 7;
+  }
+  ac_int<3, true> m_int3;
+  ac_int<4, true> m_int4;
+  ac_int<3, false> m_uint3;
+  ac_int<4, false> m_uint4;
+};
+
 // Demonstrate some basic assertions.
-TEST(HelloTest, BasicAssertions) {
-  // Expect two strings not to be equal.
-  EXPECT_STRNE("hello", "world");
-  // Expect equality.
-  EXPECT_EQ(7 * 6, 42);
+TEST_F(AcIntTest, BasicTest) {
+  EXPECT_EQ(m_int3, 2);
+  EXPECT_EQ(m_uint3, 2);
+
+  m_int3 = 0b111;
+  m_uint3 = 0b111;
+  EXPECT_EQ(m_int3, -1);
+  EXPECT_EQ(m_uint3, 7);
+
+  decltype(m_int3) temp;
+  temp = m_int3;
+  EXPECT_EQ(temp, -1);
+  decltype(m_uint3) utemp;
+  utemp = m_uint3;
+  EXPECT_EQ(utemp, 7);
+
+  EXPECT_EQ((m_int3 + m_int4), 6);
+
+  auto plus_var = (m_int3 + m_int4);
+  static_assert(decltype(plus_var)::width == 5, "");
+
+  auto uplus_var = (m_int3 + m_int4);
+  static_assert(decltype(uplus_var)::width == 5, "");
+  EXPECT_EQ((m_uint3 + m_uint4), 14);
 }
