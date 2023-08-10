@@ -1,5 +1,6 @@
 #include <ac_int.h>
 #include <gtest/gtest.h>
+#include <limits>
 
 class AcIntTest : public ::testing::Test {
 protected:
@@ -24,6 +25,11 @@ TEST_F(AcIntTest, BasicTest) {
   m_uint3 = 0b111;
   EXPECT_EQ(m_int3, -1);
   EXPECT_EQ(m_uint3, 7);
+
+  // singed int to unsigned conversion
+  Ulong a;
+  a = (Ulong)m_int3;
+  EXPECT_EQ(a, std::numeric_limits<Ulong>::max());
 
   decltype(m_int3) temp;
   temp = m_int3;
