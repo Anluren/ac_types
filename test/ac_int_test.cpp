@@ -63,5 +63,35 @@ TEST_F(AcIntTest, BasicTest) {
 
   auto sll_var = m_int4 << m_uint3;
   static_assert(decltype(sll_var)::width == 4, "");
+  std::cout << sll_var << std::endl;
+  EXPECT_EQ(sll_var, 0);
 
+}
+
+TEST_F(AcIntTest, ArithTest) {
+  ac_int<5> v5{31};
+  EXPECT_EQ(v5, -1);
+  ac_int<5> v5_1{31};
+  EXPECT_EQ(v5_1, -1);
+
+  // result bitwidth: 10
+  auto mul_var = v5 * v5_1;
+  static_assert(decltype(mul_var)::width == 10);
+  EXPECT_EQ(mul_var, 1);
+
+  v5 = -16;
+  v5_1 = -15;
+  mul_var = v5 * v5_1;
+  EXPECT_EQ(mul_var, 240);
+
+  ac_int<5, false> uv5 {31};
+  auto mixed_mul_var = uv5 * v5;
+  static_assert(decltype(mixed_mul_var)::width == 10);
+  EXPECT_EQ(mixed_mul_var, -496);
+
+  // static_assert(ac::nbits<5>::val == 3); 
+  // static_assert(ac::nbits<127>::val == 7); 
+  // std::cout<< (ac::nbits<5>::val) << std::endl;
+  // std::cout<< (ac::nbits<8>::val) << std::endl;
+  // std::cout<< (ac::nbits<256>::val) << std::endl;
 }

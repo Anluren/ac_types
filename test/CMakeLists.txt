@@ -2,7 +2,9 @@
 include(FetchContent)
 FetchContent_Declare(
   googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+  GIT_REPOSITORY https://github.com/google/googletest.git
+  GIT_TAG 703bd9caab50b139428cea1aaff9974ebee5742e # release-1.10.0
+  # URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -17,7 +19,8 @@ add_executable(ac_test
 target_link_libraries(
   ac_test
   ac_types
-  GTest::gtest_main
+  # GTest::gtest_main
+  gtest_main
 )
 
 include(GoogleTest)
