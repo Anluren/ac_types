@@ -2628,6 +2628,19 @@ public:
     return (uindex < W) ? (Base::v[uindex>>5]>>(uindex&31) & 1) : 0;
   }
 
+  void reverse() {
+    if(W > 32) {
+      typedef ac_int<W,true> intW_t;
+      typename intW_t::Base r0(*this);
+      intW_t r;
+      r0.reverse(r);
+      r.template const_shift_r<intW_t::N,(32-W)&31>(r);
+      *this=ac_int<W,false>(r);
+    } else {
+      *this=ac_int<W,false>(ac_private::reverse_u<W>((unsigned)Base::v[0]));
+    }
+  }
+
   ac_int<W,false> reverse() const {
     if(W > 32) {
       typedef ac_int<W,true> intW_t;
